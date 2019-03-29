@@ -20,11 +20,7 @@ open class VisitableView: UIView {
     // MARK: Web View
     
     open var webView: WKWebView?
-    public var contentInset: UIEdgeInsets? {
-        didSet {
-            updateContentInsets()
-        }
-    }
+    public var contentInset: UIEdgeInsets?
     private weak var visitable: Visitable?
     
     open func activateWebView(_ webView: WKWebView, forVisitable visitable: Visitable) {
