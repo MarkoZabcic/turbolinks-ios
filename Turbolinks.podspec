@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "http://github.com/turbolinks/turbolinks-ios"
   s.license      = "MIT"
   s.authors      = { "Sam Stephenson" => "sam@basecamp.com", "Jeffrey Hardy" => "jeff@basecamp.com", "Zach Waugh" => "zach@basecamp.com" }
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "9.0"
   s.source       = { :git => "git@github.com:turbolinks/turbolinks-ios.git", :tag => "v3.0.0" }
   s.source_files  = "Turbolinks/*.swift"
   s.resources = "Turbolinks/*.js"
