@@ -175,34 +175,6 @@ open class VisitableView: UIView {
         insertSubview(hiddenScrollView, at: 0)
     }
     
-    
-    // MARK: Layout
-    
-    override open func layoutSubviews() {
-        super.layoutSubviews()
-        updateContentInsets()
-    }
-    
-    private func needsUpdateForContentInsets(_ insets: UIEdgeInsets) -> Bool {
-        guard let scrollView = webView?.scrollView else { return false }
-        return scrollView.contentInset.top != insets.top || scrollView.contentInset.bottom != insets.bottom
-    }
-    
-    private func updateWebViewScrollViewInsets(_ insets: UIEdgeInsets) {
-        guard let scrollView = webView?.scrollView, needsUpdateForContentInsets(insets) && !isRefreshing else { return }
-        
-        scrollView.scrollIndicatorInsets = insets
-        scrollView.contentInset = insets
-    }
-    
-    private func updateContentInsets() {
-        if #available(iOS 11, *) {
-            updateWebViewScrollViewInsets(contentInset ?? hiddenScrollView.adjustedContentInset)
-        } else {
-            updateWebViewScrollViewInsets(contentInset ?? hiddenScrollView.contentInset)
-        }
-    }
-    
     public func addFillConstraints(forView view: UIView) {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", options: [], metrics: nil, views: [ "view": view ]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: [ "view": view ]))
