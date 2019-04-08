@@ -27,6 +27,7 @@ open class VisitableView: UIView {
         self.webView = webView
         self.visitable = visitable
         addSubview(webView)
+        self.webView?.scrollView.delegate = self
         installRefreshControl()
         showOrHideWebView()
     }
@@ -45,8 +46,11 @@ open class VisitableView: UIView {
     
     // MARK: Refresh Control
     
-    open lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
+    open lazy var refreshControl: RefreshControl = {
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+//        return refreshControl
+        let refreshControl = RefreshControl(frame: CGRect(x: 0, y: -50, width: UIScreen.main.bounds.width, height: 50))
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         return refreshControl
     }()
@@ -174,5 +178,15 @@ open class VisitableView: UIView {
     public func addFillConstraints(forView view: UIView) {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", options: [], metrics: nil, views: [ "view": view ]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: [ "view": view ]))
+    }
+}
+
+extension VisitableView: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        refreshControl.containtingScrollViewDidEndDragging(scrollView: scrollView, willDecelerate: decelerate)
     }
 }
