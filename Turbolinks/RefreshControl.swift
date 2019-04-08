@@ -18,10 +18,10 @@ public class RefreshControl: UIControl {
             if #available(iOS 10.0, *) {
                 let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
                 impact.impactOccurred()
-            } else {
-                // Fallback on earlier versions
             }
-            self.sendActions(for: .valueChanged)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+                self.sendActions(for: .valueChanged)
+            })
         }
     }
     
@@ -32,5 +32,4 @@ public class RefreshControl: UIControl {
     func endRefreshing() {
         self.isRefreshing = false
     }
-    
 }
