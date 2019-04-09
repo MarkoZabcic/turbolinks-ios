@@ -47,10 +47,7 @@ open class VisitableView: UIView {
     // MARK: Refresh Control
     
     open lazy var refreshControl: RefreshControl = {
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-//        return refreshControl
-        let refreshControl = RefreshControl(frame: CGRect(x: 0, y: -50, width: UIScreen.main.bounds.width, height: 50))
+        let refreshControl = RefreshControl(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         return refreshControl
     }()
@@ -71,7 +68,7 @@ open class VisitableView: UIView {
     
     private func installRefreshControl() {
         if let scrollView = webView?.scrollView , allowsPullToRefresh {
-            scrollView.addSubview(refreshControl)
+            refreshControl.add(to: scrollView)
         }
     }
     
@@ -183,7 +180,7 @@ open class VisitableView: UIView {
 
 extension VisitableView: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
+        refreshControl.containtingScrollViewDidScroll(scrollView: scrollView)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
