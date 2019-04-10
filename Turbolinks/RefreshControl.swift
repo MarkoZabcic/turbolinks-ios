@@ -86,7 +86,7 @@ public class RefreshControl: UIControl {
         
         layer.addSublayer(circleLayer)
 
-        self.transform = CGAffineTransform(scaleX: 0, y: 0)
+//        self.transform = CGAffineTransform(scaleX: 0, y: 0)
 
     }
     
@@ -136,9 +136,9 @@ public class RefreshControl: UIControl {
         guard !self.isRefreshing else { return }
         
         if translation.y <= 0 && translation.y > -100 {
-            self.transform = CGAffineTransform(scaleX: -translation.y / 100, y: -translation.y / 100)
+//            self.transform = CGAffineTransform(scaleX: -translation.y / 100, y: -translation.y / 100)
         } else if translation.y > 0 {
-            self.transform = CGAffineTransform(scaleX: 0, y: 0)
+//            self.transform = CGAffineTransform(scaleX: 0, y: 0)
         }
         
         if translation.y <= 0 && translation.y > -100 {
@@ -165,9 +165,9 @@ public class RefreshControl: UIControl {
         animateCircle(to: 0.0)
         
         UIView.animate(withDuration: hideAnimationDuration, animations: {
-            self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+//            self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
         }) { (Bool) in
-            self.transform = CGAffineTransform(scaleX: 0, y: 0)
+//            self.transform = CGAffineTransform(scaleX: 0, y: 0)
 
         }
     }
