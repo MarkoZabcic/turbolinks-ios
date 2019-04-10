@@ -85,9 +85,6 @@ public class RefreshControl: UIControl {
         circleLayer.strokeEnd = 0.0
         
         layer.addSublayer(circleLayer)
-
-//        self.transform = CGAffineTransform(scaleX: 0, y: 0)
-
     }
     
     private func createConstraints(to view: UIView) {
@@ -141,14 +138,14 @@ public class RefreshControl: UIControl {
 //            self.transform = CGAffineTransform(scaleX: 0, y: 0)
         }
         
-        if translation.y <= 0 && translation.y > -100 {
+//        if translation.y <= 0 && translation.y > -100 {
             let progress = translation.y / requiredDraggingOffset
             print(progress)
             circleLayer.strokeEnd = progress
             
             superview?.layoutIfNeeded()
             print(translation.y)
-        }
+//        }
         
         if translation.y < requiredDraggingOffset {
             let x = scrollView.panGestureRecognizer.state
@@ -163,13 +160,6 @@ public class RefreshControl: UIControl {
         
         stopRotating()
         animateCircle(to: 0.0)
-        
-        UIView.animate(withDuration: hideAnimationDuration, animations: {
-//            self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        }) { (Bool) in
-//            self.transform = CGAffineTransform(scaleX: 0, y: 0)
-
-        }
     }
     
     public func beginRefreshing() {
