@@ -28,6 +28,7 @@ open class VisitableView: UIView {
         self.visitable = visitable
         addSubview(webView)
         self.webView?.scrollView.delegate = self
+        self.addFillConstraints(forView: webView)
         installRefreshControl()
         showOrHideWebView()
     }
