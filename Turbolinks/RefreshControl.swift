@@ -11,26 +11,6 @@ import UIKit
 public class RefreshControl: UIControl {
     open var isRefreshing: Bool = false
     
-    func containtingScrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        let minOffsetToTriggerRefresh: CGFloat = 100
-        self.handleScroll(scrollView: scrollView)
-        
-        if (scrollView.contentOffset.y <= -minOffsetToTriggerRefresh) {
-            if #available(iOS 10.0, *) {
-                let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
-                impact.impactOccurred()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
-                self.sendActions(for: .valueChanged)
-            })
-        }
-    }
-    
-    func containtingScrollViewDidScroll(scrollView: UIScrollView) {
-        self.constraintToParent?.constant = scrollView.contentOffset.y + 45
-        self.handleScroll(scrollView: scrollView)
-    }
-    
     public var radius: CGFloat = 15
     public var fillColor: UIColor = .red
     public var innerCircleColor: UIColor = UIColor(red:0.40, green:0.40, blue:0.40, alpha:1.0)
@@ -51,6 +31,26 @@ public class RefreshControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func containtingScrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+        let minOffsetToTriggerRefresh: CGFloat = 100
+        self.handleScroll(scrollView: scrollView)
+        
+        if (scrollView.contentOffset.y <= -minOffsetToTriggerRefresh) {
+            if #available(iOS 10.0, *) {
+                let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
+                impact.impactOccurred()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+                self.sendActions(for: .valueChanged)
+            })
+        }
+    }
+    
+    func containtingScrollViewDidScroll(scrollView: UIScrollView) {
+        self.constraintToParent?.constant = scrollView.contentOffset.y + 45
+        self.handleScroll(scrollView: scrollView)
+    }
+
     public func add(to view: UIView) {
         view.addSubview(self)
         
@@ -132,20 +132,10 @@ public class RefreshControl: UIControl {
         let translation = scrollView.contentOffset
         guard !self.isRefreshing else { return }
         
-        if translation.y <= 0 && translation.y > -100 {
-//            self.transform = CGAffineTransform(scaleX: -translation.y / 100, y: -translation.y / 100)
-        } else if translation.y > 0 {
-//            self.transform = CGAffineTransform(scaleX: 0, y: 0)
-        }
+        let progress = translation.y / requiredDraggingOffset
+        circleLayer.strokeEnd = progress
         
-//        if translation.y <= 0 && translation.y > -100 {
-            let progress = translation.y / requiredDraggingOffset
-            print(progress)
-            circleLayer.strokeEnd = progress
-            
-            superview?.layoutIfNeeded()
-            print(translation.y)
-//        }
+        superview?.layoutIfNeeded()
         
         if translation.y < requiredDraggingOffset {
             let x = scrollView.panGestureRecognizer.state
