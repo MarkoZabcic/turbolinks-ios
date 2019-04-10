@@ -151,7 +151,10 @@ public class RefreshControl: UIControl {
         }
         
         if translation.y < requiredDraggingOffset {
-            beginRefreshing()
+            let x = scrollView.panGestureRecognizer.state
+            if x == .ended {
+                beginRefreshing()
+            }
         }
     }
     
