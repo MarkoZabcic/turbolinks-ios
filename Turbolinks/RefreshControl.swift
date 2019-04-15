@@ -40,6 +40,7 @@ public class RefreshControl: UIControl {
                 let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackGenerator.FeedbackStyle.light)
                 impact.impactOccurred()
             }
+            self.triggerRefresh()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
                 self.sendActions(for: .valueChanged)
             })
@@ -50,7 +51,7 @@ public class RefreshControl: UIControl {
         self.constraintToParent?.constant = scrollView.contentOffset.y + 45
         self.handleScroll(scrollView: scrollView)
     }
-
+    
     public func add(to view: UIView) {
         view.addSubview(self)
         
@@ -65,7 +66,7 @@ public class RefreshControl: UIControl {
     private func setupBasicAppearance() {
         self.backgroundColor = .clear
         self.layer.cornerRadius = radius
-
+        
     }
     
     private func setupCircleLayer() {
@@ -140,9 +141,13 @@ public class RefreshControl: UIControl {
         if translation.y < requiredDraggingOffset {
             let x = scrollView.panGestureRecognizer.state
             if x == .ended {
-                beginRefreshing()
+                //                beginRefreshing()
             }
         }
+    }
+    
+    private func triggerRefresh() {
+        beginRefreshing()
     }
     
     public func endRefreshing() {
